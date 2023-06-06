@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.coolapp-mergeDebugResources-9:/values-night-v8/values-night-v8.xml",
+            "outputFile": "com.example.coolapp-mergeDebugResources-13:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
                     "source": "C:\\Users\\laral\\Documents\\Proyectos Flutter\\coolapp\\android\\app\\src\\main\\res\\values-night\\styles.xml",

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "941444510026",
+    "project_id": "suitup-5bafb",
+    "storage_bucket": "suitup-5bafb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:941444510026:android:090859af216d798bf4d1b3",
+        "android_client_info": {
+          "package_name": "com.example.coolapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "941444510026-b9ese399mrveurkcah0u0vfc8f2u42fk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiVzcTAHb7JSFCO9nTScYjqG19Vf-sTyE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "941444510026-b9ese399mrveurkcah0u0vfc8f2u42fk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "941444510026-kqcmaelc7431cafvmoaup3opm2s5lp8l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.coolapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
