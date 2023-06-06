@@ -1,25 +1,26 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'components/mybutton.dart';
 import 'components/mytextfield.dart';
 import 'components/square_Tile.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   final Function()? onTap;
-  const LoginPage({super.key, required this.onTap});
+  const RegisterPage({super.key, required this.onTap});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   // text editing controllers
   final emailController = TextEditingController();
 
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
-  //sign user in method
-  void signUserIn() async {
+  //sign user up method
+  void signUserUp() async {
     // show loading circle
 
     showDialog(
@@ -31,13 +32,21 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
 
-    // try sign in
+    // try create user
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      Navigator.pop(context);
+      //check if password is confirmed
+
+      if (passwordController.text == confirmPasswordController.text) {
+        Navigator.pop(context);
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+      } else {
+        //show error message, oasswords don't match
+        Navigator.pop(context);
+        showErrorMessage("Las contraseñas no coinciden");
+      }
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       showErrorMessage(e.code);
@@ -70,19 +79,19 @@ class _LoginPageState extends State<LoginPage> {
           child: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const SizedBox(height: 40),
+              const SizedBox(height: 25),
 
               // logo
               const Icon(
                 Icons.tornado,
-                size: 100,
+                size: 50,
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 25),
               // welcome back, you've been missed!
 
               const Text(
-                'Bienvenido, ¡te extrañamos!',
+                '¡Crea tu cuenta!',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
@@ -107,25 +116,17 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 10),
 
-              //forgot password?
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      '¿Olvidaste tu contraseña?',
-                      style: TextStyle(color: Colors.grey[500]),
-                    ),
-                  ],
-                ),
+              MyTextField(
+                controller: confirmPasswordController,
+                hintText: 'Confirmar contraseña',
+                obscureText: true,
               ),
               const SizedBox(height: 25),
 
               // sign in button
               MyButton(
-                onTap: signUserIn,
-                text: 'Ingresar',
+                onTap: signUserUp,
+                text: 'Crear Usuario',
               ),
 
               const SizedBox(height: 35),
@@ -178,14 +179,14 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    '¿No estas registrado?',
+                    '¿Ya tienes una cuenta?',
                     style: TextStyle(color: Color(0xFF616161)),
                   ),
                   const SizedBox(width: 4),
                   GestureDetector(
                     onTap: widget.onTap,
                     child: const Text(
-                      'Registrate aquí.',
+                      'Ingresa aquí.',
                       style: TextStyle(
                           color: Colors.blue, fontWeight: FontWeight.bold),
                     ),
