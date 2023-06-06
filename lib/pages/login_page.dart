@@ -1,17 +1,73 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'components/mybutton.dart';
 import 'components/mytextfield.dart';
 import 'components/square_Tile.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   // text editing controllers
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
 
   //sign user in method
-  void signUserIn() {}
+  void signUserIn() async {
+    // show loading circle
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+    // try sign in
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      if (e.code == 'user-not-found') {
+        wrongEmailMessage();
+      } else if (e.code == 'wrong-password') {
+        wrongPasswordMessage();
+      }
+    }
+  }
+
+  void wrongEmailMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          title: Text('Email Incorrecto'),
+        );
+      },
+    );
+  }
+
+  void wrongPasswordMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          title: Text('Contraseña Incorrecta'),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +75,7 @@ class LoginPage extends StatelessWidget {
       backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: Center(
-          child: Column(children: [
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             const SizedBox(height: 40),
 
             // logo
@@ -41,10 +97,10 @@ class LoginPage extends StatelessWidget {
 
             const SizedBox(height: 25),
 
-            // username textfield
+            // email textfield
             MyTextField(
-              controller: usernameController,
-              hintText: 'Usuario',
+              controller: emailController,
+              hintText: 'Email',
               obscureText: false,
             ),
             const SizedBox(height: 8),
